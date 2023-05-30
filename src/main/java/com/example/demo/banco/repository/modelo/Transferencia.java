@@ -2,13 +2,14 @@ package com.example.demo.banco.repository.modelo;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Transferencia {
 
 	private String numero;
 	private BigDecimal monto;
 	
-	private LocalDate fecha;
+	private LocalDateTime fecha;
 	private Cuenta cuentaOrigen;
 	private Cuenta cuentaDestino;
 	
@@ -30,11 +31,11 @@ public class Transferencia {
 	public void setMonto(BigDecimal monto) {
 		this.monto = monto;
 	}
-	public LocalDate getFecha() {
+	public LocalDateTime getFecha() {
 		return fecha;
 	}
-	public void setFecha(LocalDate fecha) {
-		this.fecha = fecha;
+	public void setFecha(LocalDateTime localDateTime) {
+		this.fecha = localDateTime;
 	}
 	public Cuenta getCuentaOrigen() {
 		return cuentaOrigen;
