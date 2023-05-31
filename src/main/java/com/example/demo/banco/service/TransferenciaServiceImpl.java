@@ -3,8 +3,10 @@ package com.example.demo.banco.service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.banco.repository.CuentaRepository;
@@ -18,6 +20,10 @@ public class TransferenciaServiceImpl implements TransferenciaService{
 	private TransferenciaRepository transferenciaRepository;
 	@Autowired
 	private CuentaRepository cuentaRepository;
+	
+	@Autowired
+	@Qualifier("internacional")
+	private MontoDebitarService montoDebitarService;
 
 	@Override
 	public void guardar(Transferencia transferencia) {
@@ -50,11 +56,13 @@ public class TransferenciaServiceImpl implements TransferenciaService{
 		
 		//2. Consultar el saldo de la cuenta origen
 		BigDecimal saldoOrigen = ctaOrigen.getSaldo();
+		
+		BigDecimal montoDebitar=this.montoDebitarService.calcular(monto);
 		//3. Validar si el saldo es suficiente
-		if(monto.compareTo(saldoOrigen)<=0) {// si es menor que 0, entonces monto es <=saldoOrigen
+		if(montoDebitar.compareTo(saldoOrigen)<=0) {// si es menor que 0, entonces monto es <=saldoOrigen
 			//5. Si si es suficiente ir al paso 6
 			//6. Realizamos la resta del saldo origen - monto
-			BigDecimal nuevoSaldoOrigen=saldoOrigen.subtract(monto); //RESTA
+			BigDecimal nuevoSaldoOrigen=saldoOrigen.subtract(montoDebitar); //RESTA
 			
 			//7. Actualizamos el nuevo saldo de la cuenta origen
 			ctaOrigen.setSaldo(nuevoSaldoOrigen);
@@ -88,6 +96,12 @@ public class TransferenciaServiceImpl implements TransferenciaService{
 			System.out.println("Saldo no disponible, su saldo es: "+saldoOrigen);
 		}
 		
+	}
+
+	@Override
+	public List<Transferencia> buscarTodo() {
+		
+		return this.transferenciaRepository.seleccionarTodo();
 	}
 	
 

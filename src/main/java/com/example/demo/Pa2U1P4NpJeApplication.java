@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -54,9 +55,27 @@ public class Pa2U1P4NpJeApplication implements CommandLineRunner{
 		
 
 		this.transferenciaService.realizar(cta1.getNumero(), cta2.getNumero(), new BigDecimal(60));	
+
+		this.transferenciaService.realizar(cta2.getNumero(), cta1.getNumero(), new BigDecimal(100));	
+		
 		
 		System.out.println("Saldo Origen: "+    this.cuentaService.buscarPorNumero(cta1.getNumero()).getSaldo());
 		System.out.println("Saldo Destino: "+    this.cuentaService.buscarPorNumero(cta2.getNumero()).getSaldo());
+		
+		
+		List<Transferencia> estadoCuenta= this.transferenciaService.buscarTodo();
+		
+	
+		System.out.println("\n****************REPORTE TODAS LAS TRANSFERENCIAS**************\n");
+	
+		
+		for(Transferencia transf : estadoCuenta) {
+			System.out.println("  Numero de Transferencia: "+transf.getNumero()
+					+"  Num CtaOrigen: "+transf.getCuentaOrigen().getNumero()
+					+"  Num CtaDestino: "+transf.getCuentaDestino().getNumero()
+					+"  Fecha: "+transf.getFecha());
+		}
+		
 	
 		
 		

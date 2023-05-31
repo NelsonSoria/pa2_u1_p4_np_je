@@ -42,4 +42,10 @@ public class TransferenciaRepositoryImpl implements TransferenciaRepository{
 		
 	}
 
+	@Override
+	public List<Transferencia> seleccionarTodo() {
+		
+		return baseDatos;
+	}
+
 }
