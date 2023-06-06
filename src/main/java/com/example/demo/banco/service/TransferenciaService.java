@@ -8,8 +8,6 @@ import com.example.demo.banco.repository.modelo.Transferencia;
 
 public interface TransferenciaService {
 	
-
-
 	public void guardar(Transferencia transferencia);
 	public void actualizar(Transferencia transferencia);
 	public void eliminar(String numero);
